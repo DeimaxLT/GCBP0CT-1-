@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>what3words</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      background: #111;
+      font-family: 'Press Start 2P', monospace;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .wrap {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 36px; padding: 24px; width: min(420px, 92vw);
+      text-align: center;
+    }
+
+    .heading .lt { font-size: 0.7rem; line-height: 2.4; color: #eee; }
+    .heading .en { font-size: 0.5rem; line-height: 2.2; color: #555; margin-top: 8px; }
+
+    .w3w {
+      font-size: 0.85rem;
+      line-height: 2;
+      color: #eee;
+      letter-spacing: 0.04em;
+    }
+
+    .hint-box {
+      width: 100%;
+      background: #1a1a1a;
+      border: 2px solid #333;
+      padding: 20px 16px;
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+      transition: border-color 0.15s;
+    }
+    .hint-box:active { background: #222; }
+    .hint-box.decoded { border-color: #4caf50; cursor: default; }
+
+    .hint-label {
+      font-size: 0.35rem;
+      letter-spacing: 0.15em;
+      color: #444;
+      margin-bottom: 14px;
+    }
+    .hint-box.decoded .hint-label { color: #2a6635; }
+
+    .hint-text .lt { font-size: 0.65rem; line-height: 2.4; color: #aaa; }
+    .hint-text .en { font-size: 0.45rem; line-height: 2.2; color: #555; margin-top: 6px; }
+    .hint-box.decoded .hint-text .lt { color: #eee; }
+    .hint-box.decoded .hint-text .en { color: #666; }
+
+    .tap-hint {
+      font-size: 0.32rem;
+      color: #444;
+      margin-top: 14px;
+      letter-spacing: 0.1em;
+    }
+    .hint-box.decoded .tap-hint { display: none; }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="heading">
+    <div class="lt">Naudodamas what3words dekoduok ir gauk koordinates!</div>
+    <div class="en">Using what3words, decode and get the coordinates.</div>
+  </div>
+
+  <div class="w3w">///giggled.stow.crimson</div>
+
+  <div class="hint-box" id="hint" onclick="decode()">
+    <div class="hint-label">HINT // UŽUOMINA</div>
+    <div class="hint-text">
+      <div class="lt" id="lt-text"></div>
+      <div class="en" id="en-text"></div>
+    </div>
+    <div class="tap-hint">[ TAP TO DECODE ]</div>
+  </div>
+
+</div>
+
+<script>
+  function rot13(str) {
+    return str.replace(/[A-Za-z]/g, c => {
+      const base = c <= 'Z' ? 65 : 97;
+      return String.fromCharCode((c.charCodeAt(0) - base + 13) % 26 + base);
+    });
+  }
+
+  const ltDecoded = "Siena";
+  const enDecoded = "Wall";
+
+  document.getElementById('lt-text').textContent = rot13(ltDecoded);
+  document.getElementById('en-text').textContent = rot13(enDecoded);
+
+  let decoded = false;
+  function decode() {
+    if (decoded) return;
+    decoded = true;
+    document.getElementById('lt-text').textContent = ltDecoded;
+    document.getElementById('en-text').textContent = enDecoded;
+    document.getElementById('hint').classList.add('decoded');
+  }
+</script>
+</body>
+</html>
